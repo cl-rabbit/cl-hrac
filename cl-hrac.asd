@@ -13,17 +13,24 @@
   :homepage "https://github.com/cl-rabbit/cl-hrac"
   :licence "MIT"
   :depends-on ("alexandria"
-               "nibbles"
+               "quri"
                "cl-interpol"
-               "wu-decimal"
-               "local-time"
+               "ia-hash-table"
+               "drakma"
                "collectors"
                "trivial-utf-8"
-               "fast-io"
+               "yason"
                "log4cl")
   :serial t
   :components ((:module "src"
                 :serial t
                 :components
-                ((:file "package"))))
+                ((:file "package")
+                 (:module "connection"
+                  :serial t
+                  :components
+                  ((:file "spec")
+                   (:file "connection")))
+                 (:file "util")
+                 (:file "hrac"))))
   :in-order-to ((test-op (test-op cl-hrac.test))))
