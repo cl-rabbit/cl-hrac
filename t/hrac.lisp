@@ -2,6 +2,8 @@
 
 (ia-hash-table:enable-ia-syntax)
 
+(plan 5)
+
 (subtest "GET /api/overview"
   (let* ((r (hrac:overview))
          (ts (map 'list (lambda (h) #Ih.name) #Ir.exchange_types)))
@@ -25,3 +27,15 @@
     
     (is #Irabbit.description "RabbitMQ")
     (ok (alexandria:starts-with-subseq "rabbit" #Ifirst.name))))
+
+(subtest "GET /api/nodes/:name"
+  (let* ((nodes (hrac:nodes))
+         (n (hrac:node-info #Inodes.[0].name))
+         (rabbit (find-if (lambda (app)
+                            (equal #Iapp.name "rabbit"))
+                          #In.applications)))
+
+    (is #Irabbit.description "RabbitMQ")
+    (ok (alexandria:starts-with-subseq "rabbit" #In.name))))
+
+(finalize)
