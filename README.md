@@ -9,8 +9,7 @@ This lib depends on hot version of [ia-hash-table](https://github.com/deadtricks
 ```lisp
 (ia-hash-table:enable-ia-syntax)
 
-(let ((hrac:*connection* (make-instance 'hrac:drakma-connection
-                                        :spec (hrac:make-connection-spec "http://localhost:15672/api"))))
+(let ((hrac:*connection* (make-instance 'hrac:drakma-connection)))
   (log:info "RabbitMQ alive: ~a" (hrac:alive-p))
   (let ((overview (hrac:overview)))
     (log:info "RabbitMQ node ~a, version ~a" #Ioverview.node #Ioverview.rabbitmq_version))
