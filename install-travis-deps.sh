@@ -2,6 +2,7 @@
 
 #first clone Quicklisp stuff
 git clone https://github.com/deadtrickster/cl-events.git /home/travis/.roswell/impls/ALL/ALL/quicklisp/local-projects/cl-events
+git clone https://github.com/deadtrickster/ia-hash-table.git /home/travis/.roswell/impls/ALL/ALL/quicklisp/local-projects/ia-hash-table
 git clone https://github.com/deadtrickster/safe-queue.git /home/travis/.roswell/impls/ALL/ALL/quicklisp/local-projects/safe-queue
 git clone https://github.com/deadtrickster/eventfd.git /home/travis/.roswell/impls/ALL/ALL/quicklisp/local-projects/eventfd
 git clone https://github.com/fukamachi/quri.git /home/travis/.roswell/impls/ALL/ALL/quicklisp/local-projects/quri
