@@ -54,3 +54,6 @@
                              :endpoint path
                              :login (first credentials)
                              :password (second credentials)))))
+
+(defmethod make-connection-spec ((raw (eql nil)))
+  (make-connection-spec "http://localhost:15672/api"))

@@ -1,7 +1,7 @@
 (in-package :cl-hrac)
 
 (defclass connection ()
-  ((spec :initarg :spec :reader connection-spec)))
+  ((spec :initform (make-connection-spec nil) :initarg :spec :reader connection-spec)))
 
 (defgeneric connection.get (connection path))
 
