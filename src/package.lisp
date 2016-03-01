@@ -8,7 +8,7 @@
            #:drakma-connection
            #:overview
            #:enabled-protocols
-           #:protcol-ports
+           #:protocol-ports
            #:nodes
            #:node-info
            #:extensions
