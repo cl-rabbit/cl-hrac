@@ -16,9 +16,10 @@
 
 (defun protocol-ports (&optional (connection *connection*))
   (let ((overview (overview connection)))
-    (map 'list (lambda (listener)
-                 (cons #Ilistener.protocol #Ilistener.port))
-         #Ioverview.listeners)))
+    (ia-hash-table:alist-ia-hash-table
+     (map 'list (lambda (listener)
+                  (cons #Ilistener.protocol #Ilistener.port))
+          #Ioverview.listeners))))
 
 (defun nodes (&optional (connection *connection*))
   (connection.get connection "nodes"))
