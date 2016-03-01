@@ -3,6 +3,20 @@ RabbitMQ Management HTTP API in Common Lisp
 
 ## Examples
 
+```lisp
+(let ((hrac:*connection* (make-instance 'hrac:drakma-connection
+                                        :spec (hrac:make-connection-spec "http://localhost:15672/api"))))
+  (log:info "RabbitMQ alive: ~a" (hrac:alive-p))
+  (let ((overview (hrac:overview)))
+    (log:info "RabbitMQ node ~a, version ~a" #Ioverview.node #Ioverview.rabbitmq_version))
+  (let ((exchanges (hrac:exchanges)))
+    (log:info "Already ~a exchanges declared" (length exchanges))
+    (log:info "3d exchange name is ~a" #Iexchanges.[2].name)))
+
+<INFO> [07:28:06] cl-user () - RabbitMQ node rabbit@office, version 3.6.0
+<INFO> [07:28:06] cl-user () - Already 13 exchanges declared
+<INFO> [07:28:06] cl-user () - 3d exchange name is amq.fanout
+```
 
 ## License
 
