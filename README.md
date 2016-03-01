@@ -1,9 +1,14 @@
 # CL-HRAC [![Build Status](https://travis-ci.org/cl-rabbit/cl-hrac.svg)](https://travis-ci.org/cl-rabbit/cl-hrac) [![Coverage Status](https://coveralls.io/repos/cl-rabbit/cl-hrac/badge.svg?branch=master&service=github)](https://coveralls.io/github/cl-rabbit/cl-hrac?branch=master)
 RabbitMQ Management HTTP API in Common Lisp
 
+## Note
+This lib depends on hot version of [ia-hash-table](https://github.com/deadtrickster/ia-hash-table)
+
 ## Examples
 
 ```lisp
+(ia-hash-table:enable-ia-syntax)
+
 (let ((hrac:*connection* (make-instance 'hrac:drakma-connection
                                         :spec (hrac:make-connection-spec "http://localhost:15672/api"))))
   (log:info "RabbitMQ alive: ~a" (hrac:alive-p))
