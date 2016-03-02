@@ -38,4 +38,16 @@
     (is #Irabbit.description "RabbitMQ")
     (ok (alexandria:starts-with-subseq "rabbit" #In.name))))
 
+(subtest "GET /api/extensions"
+  (is-type (hrac:extensions) 'sequence))
+
+(subtest "GET /api/definitions"
+  (let ((defs (hrac:definitions)))
+
+    (is-type #Idefs.bindings 'sequence)
+    (is-type #Idefs.queues 'sequence)
+    (is-type #Idefs.exchanges 'sequence)
+    (is-type #Idefs.users 'sequence)
+    (is-type #Idefs.vhosts 'sequence)))
+
 (finalize)
