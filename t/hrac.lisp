@@ -50,4 +50,44 @@
     (is-type #Idefs.users 'sequence)
     (is-type #Idefs.vhosts 'sequence)))
 
+(subtest "POST /api/definitions"
+  (prove:skip 1 "Not sure how to restore state reliably after this test")) ;; TODO: Not sure how to restore state reliably after this test
+
+(subtest "GET /api/connections"
+  (let ((old-count (length (hrac:connections))))
+    (bunny:with-connection ()
+      (is (length (hrac:connections)) (1+ old-count)))))
+
+;; (subtest "GET /api/connections/:name"
+;;   (let* ((connections (hrac:connections))
+;;          (cname #Iconnections.[0].name)
+;;          (cl-bunny (find-if (lambda (c)
+;;                                (equal #Ic.client_properties.product "CL-BUNNY"))
+;;                             connections)))
+;;     (ok (search "127.0.0.1" cname))
+;;     (ok cl-bunny)))
+
+(subtest "DELETE /api/connections/:name"
+  (bunny:with-connection ()
+    (let* ((connections (hrac:connections))
+           (cname #Iconnections.[0].name))
+      (hrac:connection.close cname)
+      (sleep 1)
+      (is-error (bunny:channel.new.open) 'bunny:connection-closed-error))))
+
+(subtest "GET /api/channels"
+  (let ((old-count (length (hrac:channels))))
+    (bunny:with-connection ()
+      (bunny:with-channel ()
+        (is (length (hrac:channels)) (1+ old-count))))))
+
+(subtest "GET /api/channels/:name"
+  (bunny:with-connection ()
+    (bunny:with-channel ()
+      (let* ((channels (hrac:channels))
+             (cname #Ichannels.[0].name)
+             (c (hrac:channel-info cname)))
+        (ok (>= #Ic.number 1))
+        (ok (>= #Ic.prefetch_count 0))))))
+
 (finalize)
