@@ -90,4 +90,18 @@
         (ok (>= #Ic.number 1))
         (ok (>= #Ic.prefetch_count 0))))))
 
+(subtest "GET /api/exchanges"
+  (let* ((exchanges (hrac:exchanges))
+         (e #Iexchanges.[0]))
+    (ok #Ie.type)
+    (ok #Ie.name)
+    (ok #Ie.vhost)
+    (ok #Ie.durable)
+    (ok #Ie.auto_delete)))
+
+(subtest "GET /api/exchanges/:vhost"
+  (let* ((exchanges (hrac:exchanges))
+         (first #Iexchanges.[0]))
+    (is #Ifirst.vhost "/")))
+
 (finalize)
