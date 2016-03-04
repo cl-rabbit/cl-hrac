@@ -24,7 +24,7 @@
          (rabbit (find-if (lambda (app)
                             (equal #Iapp.name "rabbit"))
                           #Ifirst.applications)))
-    
+
     (is #Irabbit.description "RabbitMQ")
     (ok (alexandria:starts-with-subseq "rabbit" #Ifirst.name))))
 
@@ -103,5 +103,17 @@
   (let* ((exchanges (hrac:exchanges))
          (first #Iexchanges.[0]))
     (is #Ifirst.vhost "/")))
+
+(subtest "GET /api/exchanges/:vhost:name"
+  (let ((e (hrac:exchange-info "amq.fanout")))
+    (is #Ie.type "fanout")))
+
+(subtest "GET api/permissions"
+  (let ((permissions (hrac:permissions)))
+    (ok #Ipermissions.[0].read)))
+
+(subtest "GET /api/parameters"
+  (let ((parameters (hrac:parameters)))
+    (is-type parameters 'sequence)))
 
 (finalize)
