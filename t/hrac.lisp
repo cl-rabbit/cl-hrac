@@ -108,6 +108,17 @@
   (let ((e (hrac:exchange-info "amq.fanout")))
     (is #Ie.type "fanout")))
 
+(subtest "PUT /api/exchanges/:vhost/:name"
+  (bunny:with-connection ()
+    (bunny:with-channel ()
+      (hrac::exchange.declare "httpdeclared" '(("durable" . nil) ("type" . "fanout")))
+      (let ((x (bunny:exchange.declare "httpdeclared" :type "fanout")))
+	(ok (bunny:exchange.delete x))))))
+
+(subtest "GET api/whoami"
+  (let ((r (hrac:whoami)))
+    (is #Ir.name "guest")))
+
 (subtest "GET api/permissions"
   (let ((permissions (hrac:permissions)))
     (ok #Ipermissions.[0].read)))
