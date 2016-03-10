@@ -150,6 +150,24 @@
 
         (bunny:exchange.delete x)))))
 
+(subtest "GET /api/exchanges/:vhost/:name/bindings/destination"
+  (bunny:with-connection ()
+    (bunny:with-channel ()
+      (let* ((x1 (bunny:exchange.fanout "http.api.tests.fanout1"))
+             (x2 (bunny:exchange.fanout "http.api.tests.fanout2")))
+        (bunny:exchange.bind x1 x2)
+
+        (let* ((xs (hrac:list-bindings-by-destination "http.api.tests.fanout1"))
+               (f #Ixs.[0]))
+          (is #If..destination (bunny:exchange-name x1))
+          (is #If.destination_type "exchange")
+          (is #If.routing_key "")
+          (is #If.source (bunny:exchange-name x2))
+          (is #If.vhost "/"))
+
+        (bunny:exchange.delete x1)
+        (bunny:exchange.delete x2)))))
+
 (subtest "GET api/whoami"
   (let ((r (hrac:whoami)))
     (is #Ir.name "guest")))
