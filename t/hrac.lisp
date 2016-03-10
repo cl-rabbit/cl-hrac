@@ -104,7 +104,7 @@
          (first #Iexchanges.[0]))
     (is #Ifirst.vhost "/")))
 
-(subtest "GET /api/exchanges/:vhost:name"
+(subtest "GET /api/exchanges/:vhost/:name"
   (let ((e (hrac:exchange-info "amq.fanout")))
     (is #Ie.type "fanout")))
 
@@ -114,6 +114,24 @@
       (hrac::exchange.declare "httpdeclared" '(("durable" . nil) ("type" . "fanout")))
       (let ((x (bunny:exchange.declare "httpdeclared" :type "fanout")))
 	(ok (bunny:exchange.delete x))))))
+
+(subtest "DELETE /api/exchanges/:vhost/:name"
+  (subtest "Deletes an exchange"
+    (bunny:with-connection ()
+      (bunny:with-channel ()
+	(let ((x (bunny:exchange.fanout "httpdeclared")))
+	  (hrac:exchange.delete (bunny:exchange-name x))
+	  (is-error (bunny:exchange.fanout "httpdeclared" :passive t) 'amqp:amqp-error-not-found)))))
+
+  (subtest "Doesn't delete used exchange"
+    (bunny:with-connection ()
+      (bunny:with-channel ()
+	(let* ((x (bunny:exchange.fanout "httpdeclared"))
+	       (q (bunny:queue.declare-temp)))
+	  (bunny:queue.bind q x)
+	  (is (hrac:exchange.delete (bunny:exchange-name x) :if-unused t) nil)
+	  (is (bunny:exchange.fanout "httpdeclared" :passive t) x)
+	  (bunny:exchange.delete x))))))
 
 (subtest "GET api/whoami"
   (let ((r (hrac:whoami)))
