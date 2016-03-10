@@ -133,6 +133,23 @@
 	  (is (bunny:exchange.fanout "httpdeclared" :passive t) x)
 	  (bunny:exchange.delete x))))))
 
+(subtest "GET /api/exchanges/:vhost/:name/bindings/source"
+  (bunny:with-connection ()
+    (bunny:with-channel ()
+      (let* ((x (bunny:exchange.fanout "http.api.tests.fanout"))
+             (q (bunny:queue.declare-temp)))
+        (bunny:queue.bind q x)
+
+        (let* ((xs (hrac:list-bindings-by-source "http.api.tests.fanout"))
+               (f #Ixs.[0]))
+          (is #If..destination (bunny:queue-name q))
+          (is #If.destination_type "queue")
+          (is #If.routing_key "")
+          (is #If.source (bunny:exchange-name x))
+          (is #If.vhost "/"))
+
+        (bunny:exchange.delete x)))))
+
 (subtest "GET api/whoami"
   (let ((r (hrac:whoami)))
     (is #Ir.name "guest")))
