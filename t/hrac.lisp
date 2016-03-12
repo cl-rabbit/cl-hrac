@@ -168,6 +168,15 @@
         (bunny:exchange.delete x1)
         (bunny:exchange.delete x2)))))
 
+(subtest "GET /api/queues"
+  (bunny:with-connection ()
+    (bunny:with-channel ()
+      (let ((q (bunny:queue.declare-temp))
+	    (queues (hrac:queues)))
+	(ok (find-if (lambda (queue)
+                            (equal #Iqueue.name (bunny:queue-name q)))
+		     queues))))))
+
 (subtest "GET api/whoami"
   (let ((r (hrac:whoami)))
     (is #Ir.name "guest")))
